@@ -1,27 +1,30 @@
-# LedgerCore
+# TAQueue — Real-Time Office Hours Queue
 
-A backend project exploring consistent ledger updates under concurrent requests, with database transactions and an auditable history.
+A web application for managing university TA and professor office hours. Students join a live queue, describe their question, see their position and estimated wait, and receive a notification when they are next. TAs manage requests and monitor the session.
 
-**Status: planning / initial repository setup.** This repository contains a roadmap; the API and concurrency demonstration are not implemented yet.
+**Status: planned / repository setup.** This README describes the intended implementation. The application has not been built yet.
 
-## Planned stack
-Python, FastAPI, PostgreSQL, SQL, Docker, pytest.
+## Stack
+React · TypeScript · FastAPI · PostgreSQL · WebSockets · Docker
 
 ## MVP roadmap
-- [ ] Accounts and ledger entry schema with database constraints
-- [ ] REST APIs for accounts and transactions
-- [ ] Atomic transfers and fixed-precision monetary values
-- [ ] Row-level locking using SELECT ... FOR UPDATE
-- [ ] Consistent lock ordering and retry handling
-- [ ] Idempotency for retried requests
-- [ ] Audit history and reconciliation
-- [ ] SQL analytics using JOINs, CTEs, and window functions
-- [ ] Indexes and query plan analysis
-- [ ] PostgreSQL integration tests for concurrent updates
-- [ ] Docker setup and API documentation
+- [ ] Authentication with student and TA roles
+- [ ] Open and close office hours queues
+- [ ] Join a queue with a help topic
+- [ ] Live queue positions and estimated wait times
+- [ ] Notify students when they are next
+- [ ] Call, skip, and resolve requests
+- [ ] Prevent simultaneous claims of the same student by multiple TAs
+- [ ] Basic session statistics
+- [ ] Docker setup and documented REST and WebSocket APIs
 
-## Planned concurrency demonstration
-Reproduce a lost-update bug in an isolated example, then compare it with a transaction-protected implementation under the same workload. Verify balance invariants and record reproducible results.
+## Design and validation plan
+PostgreSQL will hold the authoritative queue state. Claims will use atomic database transactions and row-level locking so concurrent TA requests cannot claim the same entry. WebSocket updates will reflect committed changes, and clients will refresh queue state after reconnecting.
 
-## Validation plan
-Test rollback on failure, insufficient funds, duplicate requests, and simultaneous transfers against a real PostgreSQL database. Performance and correctness results will be published only after the tests run.
+Tests will cover role permissions, queue lifecycle, simultaneous claims against PostgreSQL, and reconnect behavior. Wait-time estimates will be labeled as estimates and based on observed session service times when enough data is available.
+
+## Engineering focus
+Full-stack development, REST APIs, real-time systems, authentication and roles, database design, concurrency, and testing.
+
+## Running the project
+Implementation and setup instructions are pending. No working demo or test results are claimed yet.
