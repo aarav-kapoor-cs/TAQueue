@@ -5,14 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TAQueue</title>
     <style>
-      body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; color: #222; }
-      input, button { font: inherit; padding: 0.4rem 0.6rem; margin-right: 0.4rem; }
-      li { margin: 0.5rem 0; }
-      .demo { background: #fff3cd; border: 1px solid #e0c060; padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+      :root { color-scheme: light; }
+      body {
+        font-family: "Segoe UI", system-ui, sans-serif;
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+        color: #1c1917;
+        background: #fafaf9;
+        line-height: 1.45;
+      }
+      h1 { font-size: 1.8rem; letter-spacing: -0.03em; margin: 0; }
+      h2 { font-size: 1.25rem; margin: 0 0 0.8rem; }
+      h3 { font-size: 1rem; margin: 1.25rem 0 0.4rem; }
+      .lede { color: #57534e; margin: 0.3rem 0 0; }
+      nav { display: flex; gap: 0.5rem; align-items: center; margin: 1.25rem 0; }
+      input, button { font: inherit; }
+      input, button, .panel {
+        border: 1px solid #e7e5e4;
+        border-radius: 10px;
+      }
+      input { padding: 0.55rem 0.7rem; background: #fff; }
+      form input, .ta-name { display: block; width: 100%; max-width: 24rem; box-sizing: border-box; margin: 0 0 0.6rem; }
+      button {
+        background: #1c1917;
+        color: #fff;
+        border-color: #1c1917;
+        padding: 0.45rem 0.8rem;
+        cursor: pointer;
+      }
+      button:disabled { background: #e7e5e4; color: #a8a29e; border-color: #e7e5e4; cursor: default; }
+      nav button { background: #fff; color: #1c1917; border-color: #d6d3d1; }
+      nav button:disabled { background: #1c1917; color: #fff; border-color: #1c1917; cursor: default; }
+      button.quiet { background: #fff; color: #44403c; border-color: #d6d3d1; margin-top: 1.5rem; }
+      li { margin: 0.65rem 0; }
       .error { color: #b00020; }
-      .big { font-size: 2.5rem; font-weight: bold; }
-      .muted { color: #777; font-size: 0.85rem; }
-      nav button[disabled] { font-weight: bold; }
+      .big { font-size: 3rem; font-weight: 650; margin: 0.15rem 0; letter-spacing: -0.04em; }
+      .muted { color: #78716c; font-size: 0.9rem; }
+      .live { color: #3f6212; font-size: 0.9rem; }
+      .live::before { content: ""; display: inline-block; width: 0.5rem; height: 0.5rem; margin-right: 0.35rem; border-radius: 50%; background: #65a30d; }
     </style>
   </head>
   <body>

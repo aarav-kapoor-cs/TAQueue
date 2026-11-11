@@ -1,5 +1,4 @@
-# DEMO ONLY: this runs the Vite dev server. A production image would run
-# `npm run build` and serve the dist/ folder with nginx.
+# Dev image. A production image would run `npm run build` and serve dist/ with nginx.
 FROM node:22-slim
 WORKDIR /app
 COPY package*.json ./

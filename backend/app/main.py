@@ -41,7 +41,8 @@ app = FastAPI(title="TAQueue", lifespan=lifespan)
 
 # The React dev server runs on http://localhost:5173 and this API on :8000.
 # Browsers block cross-origin requests unless the server allows them (CORS).
-# DEMO ONLY: "*" allows any website. In production, list your real frontend URL.
+# "*" lets the local web app on another port call this API.
+# A deployed app should list its real frontend origin instead.
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 
@@ -51,8 +52,8 @@ class JoinRequest(BaseModel):
 
 
 class TARequest(BaseModel):
-    # DEMO ONLY: there is no login. The TA just types a name and we trust it.
-    # The name is a label. It is not what authorizes "mark complete".
+    # There is no account system. The name is a label, not the check for
+    # "mark complete". That check is the claim token.
     ta_name: str = Field(min_length=1, max_length=50)
 
 
@@ -207,9 +208,9 @@ async def complete_session(entry_id: int, body: CompleteRequest):
     This one uses the other safe pattern: a single conditional UPDATE.
     The WHERE clause makes the check and the write one atomic statement,
     so there is no gap for another request to sneak into.
-    DEMO ONLY: this is not a login. It stops another TA, including one who
-    types the first TA's name. It does not stop someone who copied the secret
-    out of the first tab.
+    This is not an account login. It stops another TA, including one who types
+    the first TA's name. It does not stop someone who copied the token out of
+    the first tab.
     """
     async with app.state.pool.acquire() as conn:
         updated_id = await conn.fetchval(
@@ -237,7 +238,7 @@ async def complete_session(entry_id: int, body: CompleteRequest):
 
 @app.post("/api/demo/reset")
 async def demo_reset():
-    """DEMO ONLY: wipe the queue so you can restart a demo. Remove in production."""
+    """Empty the queue so a demo can start over."""
     async with app.state.pool.acquire() as conn:
         await conn.execute("TRUNCATE queue_entries RESTART IDENTITY")
     await broadcast_queue()

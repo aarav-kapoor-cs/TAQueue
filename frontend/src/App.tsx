@@ -7,14 +7,14 @@ export default function App() {
 
   return (
     <>
-      <h1>TAQueue</h1>
-      <p className="demo">
-        DEMO ONLY: there is no login. Pick a role with the buttons below.
-      </p>
+      <header>
+        <h1>TAQueue</h1>
+        <p className="lede">Office hours, one shared queue.</p>
+      </header>
       <nav>
-        <button disabled={role === "student"} onClick={() => setRole("student")}>I'm a student</button>
-        <button disabled={role === "ta"} onClick={() => setRole("ta")}>I'm a TA</button>
-        <span className="muted">{connected ? "● live" : "○ reconnecting…"}</span>
+        <button disabled={role === "student"} onClick={() => setRole("student")}>Student</button>
+        <button disabled={role === "ta"} onClick={() => setRole("ta")}>TA</button>
+        <span className={connected ? "live" : "muted"}>{connected ? "Live" : "Reconnecting…"}</span>
       </nav>
       {role === "student" ? <StudentView queue={queue} /> : <TAView queue={queue} />}
     </>
@@ -126,8 +126,8 @@ function TAView({ queue }: { queue: Entry[] }) {
   return (
     <>
       <h2>TA dashboard</h2>
-      <input placeholder="Your TA name" value={taName} onChange={(e) => setTaName(e.target.value)} />
-      <span className="muted">DEMO ONLY: typed name. Mark complete only shows in the tab that claimed.</span>
+      <input className="ta-name" placeholder="Your name" value={taName} onChange={(e) => setTaName(e.target.value)} />
+      <p className="muted">Mark complete shows only in the tab that claimed the student.</p>
       {error && <p className="error" data-testid="error">{error}</p>}
 
       <h3>Waiting ({waiting.length})</h3>
@@ -183,8 +183,7 @@ function TAView({ queue }: { queue: Entry[] }) {
       </ul>
 
       <p>
-        <button onClick={() => run(resetDemo)}>Reset queue</button>
-        <span className="muted">DEMO ONLY: deletes every entry</span>
+        <button className="quiet" onClick={() => run(resetDemo)}>Clear queue</button>
       </p>
     </>
   );
